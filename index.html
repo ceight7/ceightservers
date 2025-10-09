@@ -1,83 +1,482 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-    <!-- META -->
-    <meta charset="utf-8">
-    <meta name="robots" content="noodp">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <!-- PAGE TITLE -->
-    <title>Ceight Server on Github - Coming Soon</title>
-    <!-- FAVICON -->
-    <link rel="shortcut icon" href="assets/img/favicon.png">
-    <!-- FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&amp;subset=latin-ext"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/logo.png">
+    <title>Ceight Ch. Servers</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Lato -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet">
-    <!-- STYLESHEETS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/plugins.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'lato': ['Lato', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            100: '#1a1d28',
+                            200: '#141721',
+                            300: '#0f111a',
+                        },
+                        sky: {
+                            450: '#38bdf8'
+                        }
+                    },
+                    borderRadius: {
+                        '4': '4px',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- CSS Kustom -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <!-- PRELOADER -->
-    <div class="preloader">
-        <!-- SPINNER -->
-        <div class="spinner">
-            <div class="bounce-1"></div>
-            <div class="bounce-2"></div>
-            <div class="bounce-3"></div>
+<body class="font-lato bg-gray-900 text-gray-200">
+    <!-- Header/Navbar -->
+    <header class="sticky top-0 z-50 bg-dark-100/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <a href="#home">
+                        <img src="images/Logo.png" alt="Ceight Ch." class="h-10 w-10 object-contain"></img>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">Beranda</a>
+                    <a href="#mymusic" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">My Music
+                        Maker</a>
+                    <a href="#links" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">My Links</a>
+                    <a href="#article" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">Artikel &
+                        Sharing</a>
+                </nav>
+
+                <!-- Right side items -->
+                <div class="flex items-center space-x-4">
+                    <!-- CTA Button -->
+                    <a href="#donate">
+                        <button
+                            class="hidden md:block bg-sky-450 hover:bg-sky-500 text-white px-4 py-2 rounded font-medium transition-colors">
+                            Donations
+                        </button>
+                    </a>
+
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded bg-dark-300 text-gray-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-700 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#home" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">Beranda</a>
+                    <a href="#mymusic" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">My Music
+                        Maker</a>
+                    <a href="#links" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">My Links</a>
+                    <a href="#article" class="text-gray-300 hover:text-sky-450 transition-colors font-medium">Artikel &
+                        Sharing</a>
+                    <a href="#donate">
+                        <button
+                            class="bg-sky-450 hover:bg-sky-500 text-white px-4 py-2 rounded font-medium transition-colors w-full mt-2">
+                            Donations
+                        </button>
+                    </a>
+                </div>
+            </div>
         </div>
-        <!-- /SPINNER -->
-    </div>
-    <!-- /PRELOADER -->
-    <!-- HERO -->
-    <div class="hero">
-        <!-- FRONT CONTENT -->
-        <div class="front-content">
-            <!-- CONTAINER MID -->
-            <div class="container-mid">
-                <!-- ANIMATION CONTAINER -->
-                <div class="animation-container animation-fade-down" data-animation-delay="0">
-                    <img class="img-responsive logo" src="assets/img/logo.png" alt="image">
+    </header>
+
+    <!-- Hero Section Full Screen dengan teks kiri dan logo kanan -->
+    <section id="home" class="banner-full">
+        <!-- Gambar lokal - ganti dengan path gambar Anda -->
+        <img src="images/Banner.jpg" alt="Banner" class="banner-image">
+        <div class="banner-overlay"></div>
+
+        <div class="container mx-auto px-4 h-full flex items-center">
+            <div class="banner-content grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+                <!-- Teks dan tombol di kiri -->
+                <div class="flex flex-col justify-center text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white fade-in">Ceight Ch. <span
+                            class="text-sky-450">Servers</span></h1>
+                    <p class="text-xl mb-8 max-w-xl text-gray-300 fade-in">All Data in Here.</p>
                 </div>
-                <!-- /ANIMATION CONTAINER -->
-                <!-- ANIMATION CONTAINER -->
-                <div class="animation-container animation-fade-right" data-animation-delay="300">
-                    <h2>Ceight Ch. on Github. Coming Soon...</h2>
+                <!-- Logo di kanan - hanya logo saja -->
+                <div class="hidden lg:flex items-center justify-center">
+                    <div class="floating-logo">
+                        <div class="w-128 h-128 rounded-full flex items-center justify-center">
+                            <img src="images/Logo.png" alt="Logo" class="w-96 h-96 object-contain">
+                        </div>
+                    </div>
                 </div>
-                <!-- /ANIMATION CONTAINER -->
-                <!-- ANIMATION CONTAINER -->
-                <div class="animation-container animation-fade-left" data-animation-delay="600">
-                    <p> 
-                        
-                    </p>
-                    <p class="subline"><i>We're working on our new website. stay tune.</i></p>
-                </div>
-                <!-- /ANIMATION CONTAINER -->
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+            <div>
 
             </div>
-            <!-- /CONTAINER MID -->
-            <!-- FOOTER -->
-            <div class="footer">
-                <!-- ANIMATION CONTAINER -->
-                <div class="animation-container animation-fade-up" data-animation-delay="1200">
-                    <p>© 2025 Ceight Ch. | Design by <a href="https://templatefoundation.com">Template Foundation</a>
+            <div class="animate-bounce">
+                <i class="fas fa-chevron-down text-white text-2xl"></i>
+                <span class="text-white text-sm"> Scroll Down</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="mymusic" class="py-16 bg-sky-900/30 border-y border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">My Music Maker Playlist</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-8"> </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <div class="youtube-video-container">
+                <iframe 
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/videoseries?si=GmmEwX5QqHupaUWk&amp;list=PLfJyLZUTaHCyCpl6e5ls4rJSj08raGCZP"
+                    title="YouTube video player" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-300">Ini adalah playlist buatan saya yang
+                        berisikan lagu yang saya mix atau buat sendiri. untuk lebih lanjut bisa intertaksi ke youtube
+                        saya
+                        langsung.</p>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-300">atau kalian bisa download lagu saya di
+                        telegram
+                        channel saya :</p>
+                    <a href="https://t.me/c8servers/17">
+                        <button
+                            class="bg-sky-450 hover:bg-sky-500 text-white px-6 py-3 rounded font-bold text-lg transition-colors shadow-lg">
+                            Telegram Channel
+                        </button>
+                    </a>
+                    <a href="https://youtube.com/@ceightch">
+                        <button
+                            class="bg-sky-450 hover:bg-sky-500 text-white px-6 py-3 rounded font-bold text-lg transition-colors shadow-lg">
+                            YouTube Channel
+                        </button>
+                    </a>
+                    <p class="my-4 text-gray-400"> </p>
+                    <a href="https://soundcloud.com/ceight7">
+                        <button
+                            class="bg-transparent border-2 border-white hover:bg-white/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors">
+                            Soundcloud
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="links" class="py-16 bg-dark-200">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Ceight Ch. Links</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Untuk link yang saya punya bisa diakses dibawah ini :</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/deviantart.svg" alt="Deviantart" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">My Deviantart</h3>
+                    <p class="text-gray-400 mb-4">Anda bisa mengunjungi art buatan saya dengan klik tombol di bawah ini
+                        :</p>
+                    <a href="https://www.deviantart.com/rdaywalker7"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Ceight Ch. | Deviantart
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/telegram.svg" alt="Telegram" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Telegram Channel</h3>
+                    <p class="text-gray-400 mb-4">Untuk Telegram Channel saya bisa diakses di bawah ini : </p>
+                    <a href="https://t.me/ceight_ch"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Ceight Ch. | Telegram Channel
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/telegram.svg" alt="Telegram" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Telegram Group</h3>
+                    <p class="text-gray-400 mb-4">Untuk akses data saya dan grup Telegram saya bisa diakses di bawah ini
+                        : </p>
+                    <a href="https://t.me/c8servers"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Ceight Ch. | Telegram Group
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/facebook.svg" alt="Facebook" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Facebook</h3>
+                    <p class="text-gray-400 mb-4">Untuk interaksi di facebook saya bisa diakses di bawah ini : </p>
+                    <a href="https://web.facebook.com/achmad.nursyafii.79/"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Facebook
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/soundcloud.svg" alt="Soundcloud" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Soundcloud</h3>
+                    <p class="text-gray-400 mb-4">Untuk mendengarkan karya musik saya yang lain bisa diakses di bawah
+                        ini : </p>
+                    <a href="https://soundcloud.com/ceight7"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Ceight Ch. | Soundcloud
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/hoyolab.png" alt="hoyolab" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">HoYoLab</h3>
+                    <p class="text-gray-400 mb-4">Untuk interaksi di HoYoLab saya bisa diakses di bawah ini : </p>
+                    <a href="https://www.hoyolab.com/accountCenter/postList?id=113664665"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Ceight Ch. | HoYoLab
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 7 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/microsoft.svg" alt="Onedrive" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">e-Book Library | Onedrive</h3>
+                    <p class="text-gray-400 mb-4">Untuk akses e-Book Library saya bisa diakses di bawah ini : </p>
+                    <p class="text-gray-400 mb-4 italic">Catatan : untuk e-Book Library masih bisa diakses tapi sudah
+                        deprecated alias discontinue karena akses akun sudah di batasi oleh organisasi terkait.</p>
+                    <a href="https://www.hoyolab.com/accountCenter/postList?id=113664665"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            e-Book Library | Onedrive
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Feature 8 -->
+                <div class="feature-card bg-dark-100 p-6 rounded fade-in">
+                    <div class="w-14 h-14 bg-sky-900/40 rounded flex items-center justify-center mb-4">
+                        <img src="images/icons/github.svg" alt="Github" class="w-8 h-8 object-contain rounded">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-white">Github</h3>
+                    <p class="text-gray-400 mb-4">Untuk akses Github saya bisa diakses di bawah ini : </p>
+                    <a href="https://github.com/ceight7"
+                        class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        <button
+                            class="bg-transparent border border-gray-500 hover:border-sky-450 hover:bg-sky-450/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors flex items-center justify-center">
+                            Ceight Ch. | Github
+                        </button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Section -->
+    <section id="article" class="py-16 bg-dark-300">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Artikel & Sharing</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Untuk akses atau list artikel dan sharing saya ada di bawah
+                    ini :</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Article 1 -->
+                <div class="bg-dark-100 p-6 rounded border border-gray-800 fade-in">
+                    <div class="flex items-center mb-4">
+                        <div>
+                            <h3 class="font-bold text-white">Free Software Reference</h4>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">ketimbang nunggu buat konten nggak sempat, mending langsung share
+                        aja dah ...
+
+                        Aplikasi free yang berguna untuk beralih dari aplikasi berbayar atau pirated (versi pengguna
+                        windows, untuk pengguna linux atau yang lain hanya beberapa yang ada di list ini).</p>
+                    <p class="text-gray-400 italic"></p>
+                    <a href="free-software-reference.html" class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        Baca Selengkapnya <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="bg-dark-100 p-6 rounded border border-gray-800 fade-in">
+                    <div class="flex items-center mb-4">
+                        <div>
+                            <h3 class="font-bold text-white">My Setup Creations</h4>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">Setup yang saya pakai untuk keseharian.</p>
+                    <p class="text-gray-400 italic"></p>
+                    <a href="my-setup-creations.html" class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        Baca Selengkapnya <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="bg-dark-100 p-6 rounded border border-gray-800 fade-in">
+                    <div class="flex items-center mb-4">
+                        <div>
+                            <h3 class="font-bold text-white">Amplop Lebaran Tema Genshin Impact</h4>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 italic">Halo Assalaamu'alaikum Warahmatullahi Wabarakaatuh.</p>
+                    <p class="text-gray-400 italic">Hari ini saya ingin berbagi kreasi saya, yaitu desain CorelDraw yang bernama Amplop Lebaran Tema Genshin Impact.</p>
+                    <a href="amplop-genshin.html" class="inline-flex items-center text-sky-450 hover:text-sky-400 font-medium">
+                        Baca Selengkapnya <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="donate" class="py-16 bg-sky-900/30 border-y border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 text-white">Donations</h2>
+            <p class="text-gray-400 max-w-3xl mx-auto mb-8"> </p>
+            <div class="flex flex-col sm:flex-row fill-center gap-4 justify-center">
+                <div class="flex flex-col items-center">
+                    <img class="w-[240px] h-[285px] object-contain responsive-donation mb-6" src="images/donate-saweria.png" alt="Donasi Saweria">
+                </div>
+                <div>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-300">
+                        Kalian bisa memberikan dukungan donasi melalui
+                        Sawera dengan scan QR Barcode disamping atau klik tombol di bawah ini :
+                    </p>
+                    <a href="https://saweria.co/ceight">
+                        <button
+                            class="bg-transparent border-2 border-white hover:bg-white/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors">
+                            Ceight Ch. Saweria
+                        </button>
+                    </a>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-300"> </p>
+                    <p  class="text-xl mb-8 max-w-2xl mx-auto text-gray-300">Saya sangat berterima kasih kepada kalian
+                        yang
+                        sudah memberikan donasi dan dukungan. semoga dukungan
+                        dan donasi kalian bermanfaat dan berkah, Aamiin.</p>
+                    <p class="text-xl mb-8 max-w-2xl mx-auto text-gray-300"> </p>
+                    <p  class="text-xl mb-8 max-w-2xl mx-auto text-gray-300">
+                        --------------------------------------------------------------------------------------------------
+                    </p>
+                    <p> </p>
+                    <p  class="text-xl mb-8 max-w-2xl mx-auto text-gray-300">Update : sementara sekarang saya hanya bisa
+                        mengandalkan sampingan ini untuk keseharian saya terutama biaya bulanan BPJS saya dan wifi
+                        karena saya sudah tidak punya pekerjaan utama. saya akan hapus update ini apabila saya sudah ada
+                        pemasukan utama atau pekerjaan utama. kalau ada yang bantu saya sangat berterima kasih atas
+                        bantuannya, semoga kebaikan kalian dibalas berganda lipat. Syukron jazaakumullah khairan katsir.
                     </p>
                 </div>
-                <!-- /ANIMATION CONTAINER -->
             </div>
-            <!-- /FOOTER -->
         </div>
-        <!-- /FRONT CONTENT -->
-        <!-- BACKGROUND CONTENT -->
-        <div class="background-content parallax-on">
-            <div class="background-overlay"></div>
-            <div class="background-img layer" data-depth="0.05"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-300 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-black rounded flex items-center justify-center">
+                            <img src="images/Logo.png" alt="Logo" class="w-6 h-6 object-contain">
+                        </div>
+                        <span class="text-xl font-bold text-white">Ceight Ch. Servers</span>
+                    </div>
+                    <p class="mb-4">Ceight All Data in here.</p>
+                    <div class="flex space-x-4">
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                </div>
+
+                <!-- Services -->
+                <div>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <img src="images/icons/discord.svg" alt="Location" class="w-5 h-5 mr-2 mt-1 rounded">
+                            @ceight7</img>
+                        </li>
+                        <li class="flex items-start">
+                            <img src="images/icons/telegram.svg" alt="Location" class="w-5 h-5 mr-2 mt-1 rounded">
+                            @ceight7</img>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2025 Ceight. All rights reserved.</p>
+            </div>
         </div>
-        <!-- /BACKGROUND CONTENT -->
-    </div>
-    <!-- /HERO -->
-    <!-- /POPUP ( SUBSCRIBE ) -->
-    <!-- JAVASCRIPTS -->
-    <script type="text/javascript" src="assets/js/plugins.js"></script>
-    <script type="text/javascript" src="assets/js/main.js"></script>
+    </footer>
+
+    <!-- Ikon Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- JavaScript Kustom -->
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
