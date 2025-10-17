@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/logo.png">
+    <title>Joki Akun Game | Ceight Ch. Servers</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Lato -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'lato': ['Lato', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            100: '#1a1d28',
+                            200: '#141721',
+                            300: '#0f111a',
+                        },
+                        sky: {
+                            450: '#38bdf8'
+                        }
+                    },
+                    borderRadius: {
+                        '4': '4px',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- CSS Kustom -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="font-lato bg-gray-900 text-gray-200">
+    <!-- Header/Navbar -->
+    <header class="sticky top-0 z-50 bg-dark-100/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="Ceight Ch." class="h-10 w-10 object-contain"></img>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html"
+                        class="text-gray-300 hover:text-sky-450 transition-colors font-medium">Beranda</a>
+                </nav>
+
+                <!-- Right side items -->
+                <div class="flex items-center space-x-4">
+
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded bg-dark-300 text-gray-300">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-700 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="index.html"
+                        class="text-gray-300 hover:text-sky-450 transition-colors font-medium py-2">Beranda</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="bg-dark-200 py-4 border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="index.html"
+                            class="text-sm text-gray-400 hover:text-sky-450 transition-colors">Beranda</a>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-600 mx-2"></i>
+                            <span class="text-sm text-gray-300">Joki Akun Game</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Artikel Section -->
+    <section class="py-12 bg-dark-200">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header Artikel -->
+                <div class="mb-8">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">Joki Akun Game</h1>
+                    <div class="flex flex-wrap items-center text-gray-400 text-sm mb-6">
+                        <div class="flex items-center mr-6 mb-2">
+                            <i class="fas fa-user mr-2 text-sky-450"></i>
+                            <span>Oleh: Ceight Ch.</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Konten Artikel -->
+                <div class="article-content bg-dark-100 rounded p-6 md:p-8">
+                    <div class="space-y-6"></div>
+                    <p>Halo, Assalaamu’alaikum Warahmatullahi Wabarakaatuh. Ini adalah sedikit penjelasan QnA buat
+                        kalian yang ingin joki akun game ke saya. Saya mohon dibaca dengan seksama karena ada hal yang
+                        penting yang saya sampaikan untuk ke kalian.</p>
+
+                    <div class="space-y-4" id="faq-accordion">
+                        <!-- Item 1 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-1" data-accordion-button>
+                                    <span class="text-lg font-semibold">Kenapa memutuskan joki akun game ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-1" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    Terkadang sebelumnya saya pernah ngestream di youtube tapi dengan kondisi tidak ada
+                                    konten ataupun yang dikerjain. Sehingga saya bingung mau ngapain karena yang
+                                    dikerjakan sudah selesai semua. Kadang ada penonton di live chat request joki akun
+                                    dan saya senang mendengar itu karena saya jadi ada kegiatan.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-2" data-accordion-button>
+                                    <span class="text-lg font-semibold">Game apa yang di jokiin ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-2" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    Game yang sekarang saya mainkan adalah Honkai Impact 3rd sama Genshin Impact, selain
+                                    itu saya tidak main dengan alasan keterbatasan waktu dan perangkat. Jadinya hanya
+                                    game yang saya mainkan yang bisa saya jokiin. Untuk yang Honkai Impact 3rd lebih
+                                    lanjutnya bisa langsung lewat DM saja.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-3" data-accordion-button>
+                                    <span class="text-lg font-semibold">Bagian apa yang bisa di jokiin ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-3" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    Untuk yang bisa saya jokiin adalah sebagai berikut
+                                    Genshin Impact :
+                                </p>
+                                <ul class="list-disc pl-6 space-y-1">
+                                    <li>Daily Quest & Expedition</li>
+                                    <li>Weekly Quest</li>
+                                    <li>Daily Resin/Conden</li>
+                                    <li>Farming bahan</li>
+                                    <li>Eksplorasi Area</li>
+                                    <li>Spiral Abyss & Imaginarium Theater (?)</li>
+                                    <li>Event (?)</li>
+                                </ul>
+                                <p>
+                                    ada beberapa hal catatan yang saya tandai tanda tanya.
+                                    Untuk Spiral Abyss dan Imaginarium Theater sebenarnya saya masih skill issue, tapi
+                                    kalau maksa saya tetap kerjakan dengan catatan tergantung build karakter dan musuh
+                                    yang dilawan. Dan saya sangat tidak bisa menjamin untuk floor 11 dan 12 bisa full
+                                    star/babak 10 full star bahkan arcana.
+                                    Untuk event tergantung model event yang di sediakan. Terkadang ada event yang saya
+                                    sulit untuk mengerjakan seperti event perebutan name card terbatas dengan melawan
+                                    bos yang termasuk sangat sulit.
+                                    Untuk selebihnya bisa ditanyakan lanjut lewat DM saja.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-4" data-accordion-button>
+                                    <span class="text-lg font-semibold">Kira-kira pengerjaannya bagaimana ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-4" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    Untuk pengerjaan saya lebih fokus ke malam hari. Untuk malam minggu saya libur
+                                    karena saya juga ingin refreshing keluar rumah (biasanya saya main ke rumah temen
+                                    buat nongkrong). Apakah bakal dikerjain juga pas livestream? Iya, dan juga
+                                    kemungkinan saya show off ke livestream kalau saya pas livestream waktu senggang dan
+                                    benar-benar gabut buat jadi bahan konten. Kalau pas lagi fokus story saya nggak
+                                    ngerjain karena kemungkinan besar saya ketinggalan beberapa hal di gamenya.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Item 5 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-5" data-accordion-button>
+                                    <span class="text-lg font-semibold">Apakah aman kalau di jokiin kesini ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-5" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    Untuk hal itu saya pribadi lebih fokus untuk menjaga privasi. Alhasil untuk pas lagi
+                                    livestream saya kasih kotak hitam kecil untuk menutupi uid, untuk nanti saat saya
+                                    buka menu dan saat login saya buat blackscreen. Dan lebih demi mengutamakan privasi
+                                    yang lebih mendalam saya memutuskan DM ke Discord saya atau ke Telegram saya,
+                                    sehingga saat saya selesai saya akan menghapus seluruh chat di tempat saya (kalau
+                                    ada menu hapus semua sampai menyeluruh diutamakan) dan saya sangat sarankan untuk
+                                    hapus authorize device saya yang sudah tersambung di akun hoyoverse. Seandainya
+                                    nanti privasi kecil bocor seperti kespill uid pas livestream nanti saya konfirmasi
+                                    ke anda apakah perlu saya cut video atau tidak.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Item 6 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-6" data-accordion-button>
+                                    <span class="text-lg font-semibold">Untuk biaya joki kira-kira berapa ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-6" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    So, saya dari awal memang niatan untuk biaya joki saya free alias gratis. Mungkin
+                                    ini keputusan yang ceroboh bahkan distract sama penjoki lain seperti menghancurkan
+                                    pasar, tapi saya diri sendiri memang niatan menggratiskannya dan kalau saya memberi
+                                    tarif berapa saya malah tidak terlalu pintar memberikan harga. Tapi, kalau ada dari
+                                    kalian memang niatnya ngasih dan ngasihnya seikhlasnya bisa kirim ke donation saya.
+                                    Saya sangat berterima kasih kalau ada yang memberi bantuan ke saya untuk kehidupan
+                                    saya. Semoga apa yang saya berikan dan kerjakan menjadi berkah untuk kalian semua.
+                                </p>
+                                <a href="https://saweria.co/ceight">
+                                        <button
+                                            class="bg-transparent border-2 border-white hover:bg-white/10 text-white px-6 py-3 rounded font-bold text-lg transition-colors">
+                                            Ceight Ch. Saweria
+                                        </button>
+                                    </a>
+                            </div>
+                        </div>
+
+                        <!-- Item 7 -->
+                        <div class="border border-gray-700 rounded overflow-hidden">
+                            <h3>
+                                <button type="button"
+                                    class="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-200 hover:bg-dark-300 focus:outline-none"
+                                    aria-expanded="false" aria-controls="faq-7" data-accordion-button>
+                                    <span class="text-lg font-semibold">Jadi, saya harus menghubungi kemana untuk
+                                        reservasi joki akun ?</span>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </h3>
+                            <div id="faq-7" class="px-4 py-3 bg-dark-100 hidden" data-accordion-panel>
+                                <p>
+                                    Kalian bisa DM saya ke Discord atau Telegram saya dengan nickname @ceight7. Saya
+                                    tidak menerima dm lewat selain kedua social media atau komunikasi tersebut karena
+                                    saya mengutamakan privasi baik dari saya maupun kalian. Apakah kalian mikir nggak
+                                    berani dm karena bio saya agak ngedistract ? selama dm kalian memang urgensi dan
+                                    fokus ke joki saya tidak akan ban/block dan saya tetap membacanya. Saya membuat bio
+                                    tersebut dengan alasan banyak orang luar DM saya yang tidak penting dan menjadi spam
+                                    sehingga saya ban bahkan block.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                            (function () {
+                                const buttons = document.querySelectorAll('[data-accordion-button]');
+                                buttons.forEach(btn => {
+                                    btn.addEventListener('click', () => {
+                                        const expanded = btn.getAttribute('aria-expanded') === 'true';
+                                        // toggle this
+                                        btn.setAttribute('aria-expanded', String(!expanded));
+                                        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+                                        if (panel) {
+                                            panel.classList.toggle('hidden');
+                                        }
+                                        // rotate icon
+                                        const svg = btn.querySelector('svg');
+                                        if (svg) {
+                                            svg.style.transform = !expanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                                        }
+                                    });
+                                });
+                            })();
+                    </script>
+
+                    <p>
+                        Itu saja yang saya sampaikan untuk yang minat saya joki akunnya. Semoga paham dengan kondisi dan
+                        ketentuan yang saya sampaikan.
+                        Terima kasih perhatiannya dan mohon maaf kalau ada salah dari kata-kata saya.
+                    </p>
+
+                    <p class="mt-4">Wassalaamu’alaikum warahmatullahi wabarakaatuh.</p>
+                    <p class="font-semibold">Salam, Ceight.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-300 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-black rounded flex items-center justify-center">
+                            <img src="images/logo.png" alt="Logo" class="w-6 h-6 object-contain">
+                        </div>
+                        <span class="text-xl font-bold text-white">Ceight Ch. Servers</span>
+                    </div>
+                    <p class="mb-4">Ceight All Data in here.</p>
+                    <div class="flex space-x-4">
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                </div>
+
+                <!-- Services -->
+                <div>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <img src="images/icons/discord.svg" alt="Location" class="w-5 h-5 mr-2 mt-1 rounded">
+                            @ceight7</img>
+                        </li>
+                        <li class="flex items-start">
+                            <img src="images/icons/telegram.svg" alt="Location" class="w-5 h-5 mr-2 mt-1 rounded">
+                            @ceight7</img>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2025 Ceight. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Ikon Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- JavaScript Kustom -->
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
