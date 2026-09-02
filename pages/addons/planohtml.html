@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanoHTML - Penghitung potong cetakan di Kertas</title>
+    <style>
+        :root {
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --input-bg: #fafbfc;
+            --input-border: #e2e8f0;
+            --toggle-bg: #fafbfc;
+            --viz-bg: #f8fafc;
+            --viz-border: #e2e8f0;
+            --box-fill: #111111;
+            --box-border: #ffffff;
+            --box-text: #ffffff;
+            --btn-bg: #e2e8f0;
+            --btn-hover: #cbd5e1;
+            --highlight-border: #10b981;
+        }
+
+        body.dark {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #60a5fa;
+            --primary-dark: #3b82f6;
+            --secondary: #34d399;
+            --accent: #fbbf24;
+            --text: #f1f5f9;
+            --text-light: #94a3b8;
+            --border: #334155;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --input-bg: #0f172a;
+            --input-border: #334155;
+            --toggle-bg: #0f172a;
+            --viz-bg: #0f172a;
+            --viz-border: #334155;
+            --box-fill: #eeeeee;
+            --box-border: #000000;
+            --box-text: #000000;
+            --btn-bg: #334155;
+            --btn-hover: #475569;
+            --highlight-border: #34d399;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            background-image:
+                radial-gradient(at 20% 20%, rgba(59, 130, 246, 0.06) 0px, transparent 50%),
+                radial-gradient(at 80% 80%, rgba(16, 185, 129, 0.06) 0px, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            flex: 1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px 10px;
+            position: relative;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+        .header p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+            transition: color 0.3s;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            transition: var(--transition, 0.3s);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+        .theme-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 28px;
+            border: 1px solid var(--border);
+            transition: var(--transition, 0.3s);
+            color: var(--text);
+            position: relative;
+        }
+        .card:hover {
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+        .card-header .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .refresh-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--btn-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: var(--transition, 0.3s);
+            z-index: 2;
+        }
+        .refresh-btn:hover {
+            background: var(--btn-hover);
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 768px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+        .form-group .label-hint {
+            font-weight: 400;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper .unit {
+            position: absolute;
+            right: 14px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            pointer-events: none;
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 6px;
+            transition: background 0.3s, color 0.3s;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 70px 12px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--input-bg);
+            transition: var(--transition, 0.3s);
+            outline: none;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+            background: var(--card);
+        }
+        input[type="number"]:hover {
+            border-color: #cbd5e1;
+        }
+
+        .preset-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .preset-btn {
+            padding: 8px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            background: var(--input-bg);
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: var(--transition, 0.3s);
+            user-select: none;
+        }
+        .preset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .preset-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--input-bg);
+            transition: var(--transition, 0.3s);
+            outline: none;
+            cursor: pointer;
+        }
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+        }
+        select:hover {
+            border-color: #cbd5e1;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            background: var(--toggle-bg);
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition, 0.3s);
+            user-select: none;
+        }
+        .toggle-row:hover {
+            border-color: #cbd5e1;
+        }
+        .toggle-row input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .toggle-row .toggle-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .toggle-row .toggle-desc {
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .margin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+        }
+        .margin-grid .form-group {
+            margin-bottom: 0;
+        }
+
+        .result-section {
+            margin-top: 24px;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.08));
+            border-radius: var(--radius-sm);
+            border: 2px dashed rgba(16, 185, 129, 0.3);
+            margin-bottom: 16px;
+        }
+        .result-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--secondary);
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+        .result-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            text-align: center;
+        }
+        .result-detail {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .detail-item {
+            background: var(--input-bg);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .detail-item .detail-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .detail-item .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .notice {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(59, 130, 246, 0.08);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .visualization-container {
+            margin-top: 20px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid var(--viz-border);
+            background: var(--viz-bg);
+            position: relative;
+            min-height: 200px;
+            transition: background 0.3s, border 0.3s;
+        }
+        .visualization-canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: var(--viz-bg);
+        }
+        .viz-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .warning {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #b45309;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+        .warning .warn-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .gap-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .gap-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        .gap-separator {
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            padding-top: 22px;
+        }
+
+        .swap-btn {
+            background: var(--btn-bg);
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text);
+            transition: var(--transition, 0.3s);
+            flex-shrink: 0;
+            align-self: flex-end;
+            margin-bottom: 2px;
+        }
+        .swap-btn:hover {
+            background: var(--btn-hover);
+            transform: scale(1.05);
+        }
+
+        /* Styles for comparison results */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .comparison-card {
+            background: var(--input-bg);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            border: 2px solid var(--border);
+            transition: border-color 0.3s;
+        }
+        .comparison-card.best {
+            border-color: var(--highlight-border);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+        }
+        .comparison-card .card-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .comparison-card .total-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        .comparison-card .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--text-light);
+        }
+        .comparison-card .detail-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Orientation label */
+        .orientation-label {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Export controls */
+        .export-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .export-controls select {
+            width: auto;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .export-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition, 0.3s);
+        }
+        .export-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 4px; }
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.6rem; }
+            .result-number { font-size: 2.5rem; }
+            .preset-btn { padding: 6px 10px; font-size: 0.72rem; }
+            .theme-toggle { top: 10px; right: 10px; padding: 6px 12px; font-size: 0.8rem; }
+            .margin-grid { grid-template-columns: 1fr; }
+            .swap-btn { width: 36px; height: 36px; font-size: 1rem; }
+            .refresh-btn { top: 10px; right: 10px; padding: 4px 8px; font-size: 0.7rem; }
+            .comparison-container { grid-template-columns: 1fr; }
+            .export-controls { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Ganti mode terang/gelap">
+                <span id="themeIcon">🌙</span>
+            </button>
+            <h1>📐 PlanoHTML</h1>
+            <p>Program hitung otomatis jumlah maksimal potong cetakan di kertas ukuran tertentu dengan orientasi campuran (portrait & landscape) beserta perbandingan.</p>
+        </div>
+
+        <div class="layout-grid">
+            <!-- Input Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="icon">📏</span>
+                    <span>Parameter Ukuran</span>
+                </div>
+
+                <!-- Satuan -->
+                <div class="form-group">
+                    <label>Satuan Ukuran</label>
+                    <div class="preset-group" id="unitGroup">
+                        <button class="preset-btn active" data-unit="mm">mm</button>
+                        <button class="preset-btn" data-unit="cm">cm</button>
+                        <button class="preset-btn" data-unit="inch">inch</button>
+                    </div>
+                </div>
+
+                <!-- Ukuran Kertas: Dropdown -->
+                <div class="form-group">
+                    <label>📄 Ukuran Kertas <span class="label-hint">(pilih dari daftar atau isi dengan ukuran yang diinginkan)</span></label>
+                    <select id="paperSelect" onchange="onPaperSelectChange()">
+                        <!-- Opsi akan diisi oleh JavaScript -->
+                    </select>
+                </div>
+
+                <div class="gap-row">
+                    <div class="form-group">
+                        <label>Lebar Kertas</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="paperWidth" value="210" min="1" step="any" placeholder="Lebar">
+                            <span class="unit" id="paperWidthUnit">mm</span>
+                        </div>
+                    </div>
+                    <span class="gap-separator">×</span>
+                    <div class="form-group">
+                        <label>Tinggi Kertas</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="paperHeight" value="297" min="1" step="any" placeholder="Tinggi">
+                            <span class="unit" id="paperHeightUnit">mm</span>
+                        </div>
+                    </div>
+                    <button class="swap-btn" title="Tukar lebar dan tinggi" onclick="swapPaperDimensions()">⇄</button>
+                </div>
+                <!-- Tambahan: Indikator Orientasi -->
+                <div style="margin-top:8px; margin-bottom:16px; font-size:0.9rem;">
+                    Orientasi saat ini: <span id="paperOrientationLabel" class="orientation-label">Portrait</span>
+                </div>
+
+                <!-- Ukuran Kotak -->
+                <div class="form-group" style="margin-top:16px;">
+                    <label>📦 Ukuran Kotak / Cetak <span class="label-hint">(ukuran cetak yang ingin dihitung)</span></label>
+                </div>
+                <div class="gap-row">
+                    <div class="form-group">
+                        <label>Lebar Kotak</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="boxWidth" value="50" min="1" step="any" placeholder="Lebar">
+                            <span class="unit" id="boxWidthUnit">mm</span>
+                        </div>
+                    </div>
+                    <span class="gap-separator">×</span>
+                    <div class="form-group">
+                        <label>Tinggi Kotak</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="boxHeight" value="50" min="1" step="any" placeholder="Tinggi">
+                            <span class="unit" id="boxHeightUnit">mm</span>
+                        </div>
+                    </div>
+                    <button class="swap-btn" title="Tukar lebar dan tinggi" onclick="swapBoxDimensions()">⇄</button>
+                </div>
+
+                <!-- Gap Antar Kotak -->
+                <div class="form-group" style="margin-top:16px;">
+                    <label>Jarak Antar Kotak / Cetak <span class="label-hint">(gap)</span></label>
+                    <div class="input-wrapper">
+                        <input type="number" id="gap" value="0" min="0" step="any" placeholder="0">
+                        <span class="unit" id="gapUnit">mm</span>
+                    </div>
+                </div>
+
+                <!-- Margin Tepi -->
+                <label class="toggle-row" for="useMargin">
+                    <input type="checkbox" id="useMargin" checked>
+                    <div>
+                        <div class="toggle-text">📐 Sertakan Margin Tepi</div>
+                        <div class="toggle-desc">Atur margin masing-masing sisi</div>
+                    </div>
+                </label>
+                <div id="marginFields" class="margin-grid">
+                    <div class="form-group">
+                        <label>Margin Atas</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="marginTop" value="0" min="0" step="any" placeholder="0">
+                            <span class="unit" id="marginTopUnit">mm</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Margin Bawah</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="marginBottom" value="0" min="0" step="any" placeholder="0">
+                            <span class="unit" id="marginBottomUnit">mm</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Margin Kiri</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="marginLeft" value="0" min="0" step="any" placeholder="0">
+                            <span class="unit" id="marginLeftUnit">mm</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Margin Kanan</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="marginRight" value="0" min="0" step="any" placeholder="0">
+                            <span class="unit" id="marginRightUnit">mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="warningArea"></div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="card" id="resultCard">
+                <button class="refresh-btn" onclick="refreshCalculation()" title="Refresh hasil">🔄 Perbarui Hasil</button>
+                <div class="card-header">
+                    <span class="icon">📊</span>
+                    <span>Hasil Perhitungan</span>
+                </div>
+                <div id="resultContent">
+                    <div class="viz-placeholder">
+                        Isi parameter untuk melihat hasil otomatis.
+                    </div>
+                </div>
+                <div class="notice" id="resultNotice" style="display:none;">
+                    Apabila terdapat hasil bermasalah bisa tekan tombol perbarui hasil, kalau tidak ada perubahan silahkan refresh halaman ini di browser. kalau hasilnya sama saja bisa hubungi pembuat prompt untuk diperiksa lebih lanjut.
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualization Card -->
+        <div class="card" id="visualizationCard" style="display:none;">
+            <button class="refresh-btn" onclick="refreshCalculation()" title="Refresh visualisasi">🔄 Perbarui Visualisasi</button>
+            <div class="card-header">
+                <span class="icon">👁️</span>
+                <span>Visualisasi Layout</span>
+            </div>
+            <div class="visualization-container" id="vizContainer">
+                <canvas id="vizCanvas" class="visualization-canvas"></canvas>
+            </div>
+            <!-- Export Controls -->
+            <div class="export-controls">
+                <label for="exportFormat" style="font-weight:600; font-size:0.9rem;">Simpan sebagai:</label>
+                <select id="exportFormat">
+                    <option value="png" selected>PNG</option>
+                    <option value="jpg">JPG</option>
+                    <option value="bmp">BMP</option>
+                    <option value="svg">SVG</option>
+                </select>
+                <button class="export-btn" onclick="exportImage()">💾 Simpan Gambar</button>
+            </div>
+            <div class="notice" id="resultNotice2" style="display:none;">
+                    Jika hasil visualisasi tidak sesuai harapan, silahkan tekan tombol perbarui visualisasi, kalau tidak ada perubahan silahkan refresh halaman ini di browser. Kalau hasilnya sama saja bisa hubungi pembuat prompt untuk diperiksa lebih lanjut.
+                </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            Program ini dibuat dengan AI oleh <a href="https://deepseek.com" target="_blank" rel="noopener noreferrer">Deepseek</a>.
+            Pembuat prompt: <strong>Ceight Ch. (Achmad Nur Syafi'i)</strong>. Untuk semua kalangan. Feel free for everyone.
+        </p>
+        <p>
+            <a href="https://ceight7.qzz.io" target="_blank" rel="noopener noreferrer">Ceight Servers</a> © 2026.
+        </p>
+    </footer>
+
+    <script>
+        (function() {
+            // === STATE ===
+            let currentUnit = 'mm';
+            let selectedPaperKey = 'a4';
+            let isCustomPaper = false;
+            let lastExportData = null;
+
+            const paperSizes = {
+                'a0': { name: 'A0', width: 841, height: 1189 },
+                'a1': { name: 'A1', width: 594, height: 841 },
+                'a2': { name: 'A2', width: 420, height: 594 },
+                'a3': { name: 'A3', width: 297, height: 420 },
+                'a4': { name: 'A4', width: 210, height: 297 },
+                'a5': { name: 'A5', width: 148, height: 210 },
+                'a6': { name: 'A6', width: 105, height: 148 },
+                'a7': { name: 'A7', width: 74, height: 105 },
+                'a8': { name: 'A8', width: 52, height: 74 },
+                'a9': { name: 'A9', width: 37, height: 52 },
+                'a10': { name: 'A10', width: 26, height: 37 },
+                'b0': { name: 'B0', width: 1000, height: 1414 },
+                'b1': { name: 'B1', width: 707, height: 1000 },
+                'b2': { name: 'B2', width: 500, height: 707 },
+                'b3': { name: 'B3', width: 353, height: 500 },
+                'b4': { name: 'B4', width: 250, height: 353 },
+                'b5': { name: 'B5', width: 176, height: 250 },
+                'b6': { name: 'B6', width: 125, height: 176 },
+                'b7': { name: 'B7', width: 88, height: 125 },
+                'b8': { name: 'B8', width: 62, height: 88 },
+                'b9': { name: 'B9', width: 44, height: 62 },
+                'b10': { name: 'B10', width: 31, height: 44 },
+                'c0': { name: 'C0', width: 917, height: 1297 },
+                'c1': { name: 'C1', width: 648, height: 917 },
+                'c2': { name: 'C2', width: 458, height: 648 },
+                'c3': { name: 'C3', width: 324, height: 458 },
+                'c4': { name: 'C4', width: 229, height: 324 },
+                'c5': { name: 'C5', width: 162, height: 229 },
+                'c6': { name: 'C6', width: 114, height: 162 },
+                'c7': { name: 'C7', width: 81, height: 114 },
+                'c8': { name: 'C8', width: 57, height: 81 },
+                'c9': { name: 'C9', width: 40, height: 57 },
+                'c10': { name: 'C10', width: 28, height: 40 },
+                'folio': { name: 'Folio', width: 210, height: 330 },
+                'legal': { name: 'Legal', width: 215.9, height: 355.6 },
+                'letter': { name: 'Letter', width: 215.9, height: 279.4 },
+                'tabloid': { name: 'Tabloid', width: 279.4, height: 431.8 },
+                'ledger': { name: 'Ledger', width: 431.8, height: 279.4 },
+                'executive': { name: 'Executive', width: 184.15, height: 266.7 },
+                'statement': { name: 'Statement', width: 139.7, height: 215.9 },
+                'dl': { name: 'Envelope DL', width: 110, height: 220 },
+                'c4_envelope': { name: 'Envelope C4', width: 229, height: 324 },
+                'c5_envelope': { name: 'Envelope C5', width: 162, height: 229 },
+                'c6_envelope': { name: 'Envelope C6', width: 114, height: 162 },
+                'c7_envelope': { name: 'Envelope C7', width: 81, height: 114 },
+                'postcard': { name: 'Kartu Pos', width: 100, height: 148 },
+                'business_card': { name: 'Kartu Nama', width: 55, height: 91 },
+                'photo_4x6': { name: 'Foto 4x6', width: 101.6, height: 152.4 },
+                'photo_5x7': { name: 'Foto 5x7', width: 127, height: 177.8 },
+            };
+
+            function getUnitMultiplier(unit) {
+                switch (unit) {
+                    case 'mm': return 1;
+                    case 'cm': return 10;
+                    case 'inch': return 25.4;
+                    default: return 1;
+                }
+            }
+
+            function convertUnit(value, fromUnit, toUnit) {
+                const inMM = value * getUnitMultiplier(fromUnit);
+                return inMM / getUnitMultiplier(toUnit);
+            }
+
+            function formatNumber(val) {
+                if (Number.isInteger(val)) return val.toString();
+                return val.toFixed(2).replace(/\.?0+$/, '');
+            }
+
+            // DOM Elements
+            const paperWidthInput = document.getElementById('paperWidth');
+            const paperHeightInput = document.getElementById('paperHeight');
+            const boxWidthInput = document.getElementById('boxWidth');
+            const boxHeightInput = document.getElementById('boxHeight');
+            const gapInput = document.getElementById('gap');
+            const useMarginCheckbox = document.getElementById('useMargin');
+            const marginTopInput = document.getElementById('marginTop');
+            const marginBottomInput = document.getElementById('marginBottom');
+            const marginLeftInput = document.getElementById('marginLeft');
+            const marginRightInput = document.getElementById('marginRight');
+            const unitButtons = document.querySelectorAll('#unitGroup .preset-btn');
+            const paperSelect = document.getElementById('paperSelect');
+            const resultContent = document.getElementById('resultContent');
+            const visualizationCard = document.getElementById('visualizationCard');
+            const vizCanvas = document.getElementById('vizCanvas');
+            const warningArea = document.getElementById('warningArea');
+            const marginFields = document.getElementById('marginFields');
+            const resultNotice = document.getElementById('resultNotice');
+            const resultNotice2 = document.getElementById('resultNotice2');
+            const paperOrientationLabel = document.getElementById('paperOrientationLabel');
+            const exportFormat = document.getElementById('exportFormat');
+
+            // Fungsi untuk memperbarui label orientasi
+            function updatePaperOrientation() {
+                const w = parseFloat(paperWidthInput.value);
+                const h = parseFloat(paperHeightInput.value);
+                if (w > h) {
+                    paperOrientationLabel.textContent = 'Landscape';
+                } else if (w < h) {
+                    paperOrientationLabel.textContent = 'Portrait';
+                } else {
+                    paperOrientationLabel.textContent = 'Square';
+                }
+            }
+
+            function onPaperDimensionsChange() {
+                updatePaperOrientation();
+                debounceCalculate();
+            }
+
+            // Populate paper dropdown
+            function populatePaperSelect() {
+                const options = [];
+                options.push('<option value="custom">Custom</option>');
+                for (const [key, data] of Object.entries(paperSizes)) {
+                    const label = `${data.name} (${data.width}×${data.height} mm)`;
+                    options.push(`<option value="${key}">${label}</option>`);
+                }
+                paperSelect.innerHTML = options.join('');
+                paperSelect.value = 'a4';
+                selectedPaperKey = 'a4';
+                isCustomPaper = false;
+                applyPaperSize('a4');
+                updatePaperOrientation();
+            }
+
+            function applyPaperSize(key) {
+                if (key === 'custom') {
+                    isCustomPaper = true;
+                    return;
+                }
+                const data = paperSizes[key];
+                if (!data) return;
+                const w = convertUnit(data.width, 'mm', currentUnit);
+                const h = convertUnit(data.height, 'mm', currentUnit);
+                paperWidthInput.value = formatNumber(w);
+                paperHeightInput.value = formatNumber(h);
+                selectedPaperKey = key;
+                isCustomPaper = false;
+                updatePaperOrientation();
+                debounceCalculate();
+            }
+
+            window.onPaperSelectChange = function() {
+                const val = paperSelect.value;
+                if (val === 'custom') {
+                    isCustomPaper = true;
+                } else {
+                    applyPaperSize(val);
+                }
+                updatePaperOrientation();
+            };
+
+            function updateMarginVisibility() {
+                marginFields.style.display = useMarginCheckbox.checked ? 'grid' : 'none';
+            }
+            useMarginCheckbox.addEventListener('change', () => {
+                updateMarginVisibility();
+                debounceCalculate();
+            });
+            updateMarginVisibility();
+
+            window.toggleTheme = function() {
+                document.body.classList.toggle('dark');
+                const isDark = document.body.classList.contains('dark');
+                document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+                if (visualizationCard.style.display !== 'none') {
+                    calculate();
+                }
+            };
+
+            function setUnit(unit) {
+                currentUnit = unit;
+                unitButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.unit === unit));
+                document.querySelectorAll('.unit').forEach(span => span.textContent = unit);
+                if (!isCustomPaper && selectedPaperKey !== 'custom') {
+                    applyPaperSize(selectedPaperKey);
+                } else {
+                    debounceCalculate();
+                }
+                updatePaperOrientation();
+            }
+            unitButtons.forEach(btn => btn.addEventListener('click', () => setUnit(btn.dataset.unit)));
+
+            window.swapPaperDimensions = function() {
+                const w = paperWidthInput.value;
+                const h = paperHeightInput.value;
+                paperWidthInput.value = h;
+                paperHeightInput.value = w;
+                paperSelect.value = 'custom';
+                isCustomPaper = true;
+                selectedPaperKey = 'custom';
+                updatePaperOrientation();
+                debounceCalculate();
+            };
+
+            window.swapBoxDimensions = function() {
+                const w = boxWidthInput.value;
+                const h = boxHeightInput.value;
+                boxWidthInput.value = h;
+                boxHeightInput.value = w;
+                debounceCalculate();
+            };
+
+            paperWidthInput.addEventListener('input', function() {
+                paperSelect.value = 'custom';
+                isCustomPaper = true;
+                selectedPaperKey = 'custom';
+                onPaperDimensionsChange();
+            });
+            paperHeightInput.addEventListener('input', function() {
+                paperSelect.value = 'custom';
+                isCustomPaper = true;
+                selectedPaperKey = 'custom';
+                onPaperDimensionsChange();
+            });
+
+            const otherInputs = [boxWidthInput, boxHeightInput, gapInput,
+                                 marginTopInput, marginBottomInput, marginLeftInput, marginRightInput];
+            otherInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    debounceCalculate();
+                });
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') calculate();
+                });
+            });
+
+            let debounceTimer;
+            function debounceCalculate() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => calculate(), 300);
+            }
+
+            function clearResults() {
+                resultContent.innerHTML = `<div class="viz-placeholder">Isi parameter untuk melihat hasil otomatis.</div>`;
+                visualizationCard.style.display = 'none';
+                warningArea.innerHTML = '';
+                resultNotice.style.display = 'none';
+                resultNotice2.style.display = 'none';
+                lastExportData = null;
+            }
+
+            window.refreshCalculation = function() {
+                calculate();
+            };
+
+            // === COMPUTE LAYOUT ===
+            function computeLayout(pw, ph, bw, bh, gap, mTop, mBottom, mLeft, mRight) {
+                const availW = pw - mLeft - mRight;
+                const availH = ph - mTop - mBottom;
+                if (availW <= 0 || availH <= 0) return null;
+
+                const memo = new Map();
+                function dp(remH) {
+                    if (remH < Math.min(bh, bw) + gap) return { total: 0, rows: [] };
+                    if (memo.has(remH)) return memo.get(remH);
+                    let best = { total: 0, rows: [] };
+
+                    if (remH >= bh + gap) {
+                        const colsNormal = Math.floor((availW + gap) / (bw + gap));
+                        if (colsNormal > 0) {
+                            const sub = dp(remH - (bh + gap));
+                            const total = colsNormal + sub.total;
+                            if (total > best.total) {
+                                best = { total, rows: ['normal', ...sub.rows] };
+                            }
+                        }
+                    }
+                    if (bw !== bh && remH >= bw + gap) {
+                        const colsRotated = Math.floor((availW + gap) / (bh + gap));
+                        if (colsRotated > 0) {
+                            const sub = dp(remH - (bw + gap));
+                            const total = colsRotated + sub.total;
+                            if (total > best.total) {
+                                best = { total, rows: ['rotated', ...sub.rows] };
+                            }
+                        }
+                    }
+                    memo.set(remH, best);
+                    return best;
+                }
+
+                const solution = dp(availH);
+                const rowsUniform = solution.rows;
+
+                let rowBoxes = [];
+                let totalBoxes = 0;
+                let yOffset = 0;
+
+                for (let i = 0; i < rowsUniform.length; i++) {
+                    const orient = rowsUniform[i];
+                    const boxW = orient === 'normal' ? bw : bh;
+                    const boxH = orient === 'normal' ? bh : bw;
+                    const mainCols = Math.floor((availW + gap) / (boxW + gap));
+                    const usedWidth = mainCols * boxW + (mainCols - 1) * gap;
+                    const leftoverWidth = availW - usedWidth;
+
+                    let row = [];
+                    for (let c = 0; c < mainCols; c++) {
+                        row.push({ w: boxW, h: boxH, orientation: orient });
+                    }
+
+                    const oppOrient = orient === 'normal' ? 'rotated' : 'normal';
+                    const oppW = oppOrient === 'normal' ? bw : bh;
+                    const oppH = oppOrient === 'normal' ? bh : bw;
+
+                    if (oppH <= boxH) {
+                        const extraCols = Math.floor((leftoverWidth + gap) / (oppW + gap));
+                        for (let e = 0; e < extraCols; e++) {
+                            row.push({ w: oppW, h: oppH, orientation: oppOrient });
+                        }
+                    }
+
+                    rowBoxes.push(row);
+                    totalBoxes += row.length;
+                    yOffset += boxH + gap;
+                }
+
+                const totalRows = rowBoxes.length;
+                const mixedRows = rowBoxes.filter(row => row.some(b => b.orientation !== row[0].orientation)).length;
+                const maxCols = Math.max(...rowBoxes.map(row => row.length));
+                const usedHeight = yOffset - gap;
+                const leftoverH = availH - usedHeight;
+                const usedWidth = Math.max(...rowBoxes.map(row => row.reduce((sum, b) => sum + b.w, 0) + (row.length - 1) * gap));
+                const leftoverW = availW - usedWidth;
+                const totalArea = pw * ph;
+                const usedArea = totalBoxes * bw * bh;
+                const utilization = (usedArea / totalArea * 100);
+
+                return {
+                    rowBoxes,
+                    totalBoxes,
+                    totalRows,
+                    mixedRows,
+                    maxCols,
+                    leftoverW: leftoverW + mLeft + mRight,
+                    leftoverH: leftoverH + mTop + mBottom,
+                    utilization,
+                    pw, ph
+                };
+            }
+
+            // === CALCULATION ===
+            function calculate() {
+                const pw = parseFloat(paperWidthInput.value);
+                const ph = parseFloat(paperHeightInput.value);
+                const bw = parseFloat(boxWidthInput.value);
+                const bh = parseFloat(boxHeightInput.value);
+                const gap = parseFloat(gapInput.value) || 0;
+                const useMargin = useMarginCheckbox.checked;
+                const mTop = useMargin ? (parseFloat(marginTopInput.value) || 0) : 0;
+                const mBottom = useMargin ? (parseFloat(marginBottomInput.value) || 0) : 0;
+                const mLeft = useMargin ? (parseFloat(marginLeftInput.value) || 0) : 0;
+                const mRight = useMargin ? (parseFloat(marginRightInput.value) || 0) : 0;
+
+                if (!pw || !ph || !bw || !bh || pw <= 0 || ph <= 0 || bw <= 0 || bh <= 0) {
+                    warningArea.innerHTML = `<div class="warning"><span class="warn-icon">⚠️</span><span>Semua ukuran harus positif.</span></div>`;
+                    clearResults();
+                    return;
+                }
+                if (bw > pw && bh > ph) {
+                    warningArea.innerHTML = `<div class="warning"><span class="warn-icon">⚠️</span><span>Kotak lebih besar dari kertas.</span></div>`;
+                    clearResults();
+                    return;
+                }
+
+                warningArea.innerHTML = '';
+
+                const normalResult = computeLayout(pw, ph, bw, bh, gap, mTop, mBottom, mLeft, mRight);
+                const swappedResult = computeLayout(ph, pw, bw, bh, gap, mTop, mBottom, mLeft, mRight);
+
+                if (!normalResult || !swappedResult) {
+                    warningArea.innerHTML = `<div class="warning"><span class="warn-icon">⚠️</span><span>Margin terlalu besar.</span></div>`;
+                    clearResults();
+                    return;
+                }
+
+                const bestResult = normalResult.totalBoxes >= swappedResult.totalBoxes ? normalResult : swappedResult;
+
+                displayResults(normalResult, swappedResult, bestResult);
+                drawVisualization(bestResult.rowBoxes, bestResult.pw, bestResult.ph, gap, mTop, mBottom, mLeft, mRight);
+                resultNotice.style.display = 'block';
+                resultNotice2.style.display = 'block';
+
+                // Simpan data untuk export
+                lastExportData = {
+                    rowBoxes: bestResult.rowBoxes,
+                    paperW: bestResult.pw,
+                    paperH: bestResult.ph,
+                    gap,
+                    mTop,
+                    mBottom,
+                    mLeft,
+                    mRight,
+                    unit: currentUnit
+                };
+            }
+
+            function getOrientationLabel(w, h) {
+                if (w > h) return 'Landscape';
+                if (w < h) return 'Portrait';
+                return 'Square';
+            }
+
+            function displayResults(normalRes, swappedRes, bestRes) {
+                const normalIsBest = normalRes.totalBoxes >= swappedRes.totalBoxes;
+                const swappedIsBest = !normalIsBest;
+                const normalOrient = getOrientationLabel(normalRes.pw, normalRes.ph);
+                const swappedOrient = getOrientationLabel(swappedRes.pw, swappedRes.ph);
+
+                resultContent.innerHTML = `
+                    <div class="result-section">
+                        <div class="comparison-container">
+                            <div class="comparison-card ${normalIsBest ? 'best' : ''}">
+                                <div class="card-title">📄 Orientasi Normal (${formatNumber(normalRes.pw)} × ${formatNumber(normalRes.ph)} ${currentUnit}) <span style="font-weight:400; font-size:0.85rem;">[${normalOrient}]</span></div>
+                                <div class="total-number">${normalRes.totalBoxes} kotak</div>
+                                <div class="detail-row"><span>Baris:</span> <span class="detail-value">${normalRes.totalRows} (${normalRes.mixedRows} campuran)</span></div>
+                                <div class="detail-row"><span>Kolom Maks:</span> <span class="detail-value">${normalRes.maxCols}</span></div>
+                                <div class="detail-row"><span>Sisa Lebar:</span> <span class="detail-value">${formatNumber(normalRes.leftoverW)} ${currentUnit}</span></div>
+                                <div class="detail-row"><span>Sisa Tinggi:</span> <span class="detail-value">${formatNumber(normalRes.leftoverH)} ${currentUnit}</span></div>
+                                <div class="detail-row"><span>Efisiensi:</span> <span class="detail-value">${normalRes.utilization.toFixed(1)}%</span></div>
+                            </div>
+                            <div class="comparison-card ${swappedIsBest ? 'best' : ''}">
+                                <div class="card-title">🔄 Orientasi Ditukar (${formatNumber(swappedRes.pw)} × ${formatNumber(swappedRes.ph)} ${currentUnit}) <span style="font-weight:400; font-size:0.85rem;">[${swappedOrient}]</span></div>
+                                <div class="total-number">${swappedRes.totalBoxes} kotak</div>
+                                <div class="detail-row"><span>Baris:</span> <span class="detail-value">${swappedRes.totalRows} (${swappedRes.mixedRows} campuran)</span></div>
+                                <div class="detail-row"><span>Kolom Maks:</span> <span class="detail-value">${swappedRes.maxCols}</span></div>
+                                <div class="detail-row"><span>Sisa Lebar:</span> <span class="detail-value">${formatNumber(swappedRes.leftoverW)} ${currentUnit}</span></div>
+                                <div class="detail-row"><span>Sisa Tinggi:</span> <span class="detail-value">${formatNumber(swappedRes.leftoverH)} ${currentUnit}</span></div>
+                                <div class="detail-row"><span>Efisiensi:</span> <span class="detail-value">${swappedRes.utilization.toFixed(1)}%</span></div>
+                            </div>
+                        </div>
+                        <div style="margin-top:16px; font-size:0.85rem; color:var(--text-light); text-align:center;">
+                            ⭐ Hasil terbaik: ${bestRes.totalBoxes} kotak (${normalIsBest ? 'Orientasi Normal' : 'Orientasi Ditukar'})
+                        </div>
+                    </div>
+                `;
+                visualizationCard.style.display = 'block';
+            }
+
+            function drawVisualization(rowBoxes, paperW, paperH, gap, mTop, mBottom, mLeft, mRight) {
+                const container = document.getElementById('vizContainer');
+                const canvas = vizCanvas;
+
+                const containerWidth = container.clientWidth || 800;
+                const aspectRatio = paperH / paperW;
+                const canvasWidth = containerWidth;
+                const canvasHeight = canvasWidth * aspectRatio;
+
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+                canvas.style.width = canvasWidth + 'px';
+                canvas.style.height = canvasHeight + 'px';
+
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                const scaleX = canvasWidth / paperW;
+                const scaleY = canvasHeight / paperH;
+                const scale = Math.min(scaleX, scaleY);
+
+                const paperDrawW = paperW * scale;
+                const paperDrawH = paperH * scale;
+                const offsetX = (canvasWidth - paperDrawW) / 2;
+                const offsetY = (canvasHeight - paperDrawH) / 2;
+
+                ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--viz-bg') || '#f8fafc';
+                ctx.fillRect(offsetX, offsetY, paperDrawW, paperDrawH);
+                ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--border') || '#475569';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(offsetX, offsetY, paperDrawW, paperDrawH);
+
+                const gapDraw = gap * scale;
+                const mTopDraw = mTop * scale;
+                const mLeftDraw = mLeft * scale;
+
+                const boxFill = getComputedStyle(document.body).getPropertyValue('--box-fill') || '#111111';
+                const boxBorder = getComputedStyle(document.body).getPropertyValue('--box-border') || '#ffffff';
+                const boxText = getComputedStyle(document.body).getPropertyValue('--box-text') || '#ffffff';
+
+                let yPos = offsetY + mTopDraw;
+                let boxCounter = 1;
+
+                rowBoxes.forEach((row) => {
+                    let xPos = offsetX + mLeftDraw;
+                    row.forEach((box) => {
+                        const w = box.w * scale;
+                        const h = box.h * scale;
+                        ctx.fillStyle = boxFill;
+                        ctx.fillRect(xPos, yPos, w, h);
+                        ctx.strokeStyle = boxBorder;
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(xPos, yPos, w, h);
+
+                        if (w > 30 && h > 20) {
+                            ctx.fillStyle = boxText;
+                            ctx.font = `bold ${Math.min(w, h) * 0.35}px 'Segoe UI', sans-serif`;
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(boxCounter, xPos + w / 2, yPos + h / 2);
+                        }
+                        boxCounter++;
+                        xPos += w + gapDraw;
+                    });
+                    const rowHeight = row.length > 0 ? row[0].h : 0;
+                    yPos += rowHeight * scale + gapDraw;
+                });
+
+                ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--text') || '#475569';
+                ctx.font = '11px "Segoe UI", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                const labelY = offsetY + paperDrawH + 8;
+                ctx.fillText(`${formatNumber(paperW)} ${currentUnit}`, offsetX + paperDrawW / 2, labelY);
+
+                ctx.save();
+                ctx.translate(offsetX - 8, offsetY + paperDrawH / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(`${formatNumber(paperH)} ${currentUnit}`, 0, 0);
+                ctx.restore();
+            }
+
+            // === EXPORT IMAGE ===
+            window.exportImage = function() {
+                if (!lastExportData) {
+                    alert('Tidak ada data visualisasi untuk diekspor. Silakan hitung terlebih dahulu.');
+                    return;
+                }
+
+                const format = exportFormat.value;
+                const { rowBoxes, paperW, paperH, gap, mTop, mBottom, mLeft, mRight } = lastExportData;
+
+                // Hitung target resolusi minimal 1500px pada sisi terpanjang
+                const aspectRatio = paperW / paperH;
+                let targetWidth, targetHeight;
+                if (paperW >= paperH) {
+                    targetWidth = 1500;
+                    targetHeight = Math.round(1500 / aspectRatio);
+                } else {
+                    targetHeight = 1500;
+                    targetWidth = Math.round(1500 * aspectRatio);
+                }
+
+                // Fungsi untuk menggambar layout pada canvas dengan ukuran tertentu
+                function drawToCanvas(width, height) {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+
+                    const scale = Math.min(width / paperW, height / paperH);
+                    const drawW = paperW * scale;
+                    const drawH = paperH * scale;
+                    const offsetX = (width - drawW) / 2;
+                    const offsetY = (height - drawH) / 2;
+
+                    // Background
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // Paper
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.fillRect(offsetX, offsetY, drawW, drawH);
+                    ctx.strokeStyle = '#475569';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(offsetX, offsetY, drawW, drawH);
+
+                    const gapDraw = gap * scale;
+                    const mTopDraw = mTop * scale;
+                    const mLeftDraw = mLeft * scale;
+
+                    // Box colors (monochrome for export)
+                    const boxFill = '#111111';
+                    const boxBorder = '#ffffff';
+                    const boxText = '#ffffff';
+
+                    let yPos = offsetY + mTopDraw;
+                    let boxCounter = 1;
+                    rowBoxes.forEach((row) => {
+                        let xPos = offsetX + mLeftDraw;
+                        row.forEach((box) => {
+                            const w = box.w * scale;
+                            const h = box.h * scale;
+                            ctx.fillStyle = boxFill;
+                            ctx.fillRect(xPos, yPos, w, h);
+                            ctx.strokeStyle = boxBorder;
+                            ctx.lineWidth = 1.5;
+                            ctx.strokeRect(xPos, yPos, w, h);
+
+                            if (w > 30 && h > 20) {
+                                ctx.fillStyle = boxText;
+                                ctx.font = `bold ${Math.min(w, h) * 0.35}px 'Segoe UI', sans-serif`;
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'middle';
+                                ctx.fillText(boxCounter, xPos + w / 2, yPos + h / 2);
+                            }
+                            boxCounter++;
+                            xPos += w + gapDraw;
+                        });
+                        const rowHeight = row.length > 0 ? row[0].h : 0;
+                        yPos += rowHeight * scale + gapDraw;
+                    });
+
+                    return canvas;
+                }
+
+                if (format === 'svg') {
+                    // Generate SVG string
+                    const svgWidth = targetWidth;
+                    const svgHeight = targetHeight;
+                    const scale = Math.min(svgWidth / paperW, svgHeight / paperH);
+                    const drawW = paperW * scale;
+                    const drawH = paperH * scale;
+                    const offsetX = (svgWidth - drawW) / 2;
+                    const offsetY = (svgHeight - drawH) / 2;
+
+                    let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">`;
+                    svgContent += `<rect width="100%" height="100%" fill="#ffffff"/>`;
+                    svgContent += `<rect x="${offsetX}" y="${offsetY}" width="${drawW}" height="${drawH}" fill="#f8fafc" stroke="#475569" stroke-width="2"/>`;
+
+                    const gapDraw = gap * scale;
+                    const mTopDraw = mTop * scale;
+                    const mLeftDraw = mLeft * scale;
+                    let yPos = offsetY + mTopDraw;
+                    let boxCounter = 1;
+                    rowBoxes.forEach((row) => {
+                        let xPos = offsetX + mLeftDraw;
+                        row.forEach((box) => {
+                            const w = box.w * scale;
+                            const h = box.h * scale;
+                            svgContent += `<rect x="${xPos}" y="${yPos}" width="${w}" height="${h}" fill="#111111" stroke="#ffffff" stroke-width="1.5"/>`;
+                            if (w > 30 && h > 20) {
+                                svgContent += `<text x="${xPos + w/2}" y="${yPos + h/2}" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="${Math.min(w,h)*0.35}" font-weight="bold" text-anchor="middle" dominant-baseline="middle">${boxCounter}</text>`;
+                            }
+                            boxCounter++;
+                            xPos += w + gapDraw;
+                        });
+                        const rowHeight = row.length > 0 ? row[0].h : 0;
+                        yPos += rowHeight * scale + gapDraw;
+                    });
+
+                    svgContent += `</svg>`;
+                    const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `layout-${formatNumber(paperW)}x${formatNumber(paperH)}.svg`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } else {
+                    // Raster formats
+                    const exportCanvas = drawToCanvas(targetWidth, targetHeight);
+                    let mimeType = 'image/png';
+                    if (format === 'jpg') mimeType = 'image/jpeg';
+                    else if (format === 'bmp') mimeType = 'image/bmp';
+                    const dataURL = exportCanvas.toDataURL(mimeType);
+                    const a = document.createElement('a');
+                    a.href = dataURL;
+                    a.download = `layout-${formatNumber(paperW)}x${formatNumber(paperH)}.${format}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            };
+
+            // Inisialisasi
+            populatePaperSelect();
+            applyPaperSize('a4');
+            updateMarginVisibility();
+            paperWidthInput.value = '210';
+            paperHeightInput.value = '297';
+            boxWidthInput.value = '50';
+            boxHeightInput.value = '50';
+            gapInput.value = '0';
+            document.querySelectorAll('.unit').forEach(span => span.textContent = 'mm');
+            updatePaperOrientation();
+            setTimeout(() => calculate(), 100);
+
+            window.addEventListener('resize', () => {
+                if (visualizationCard.style.display !== 'none') {
+                    calculate();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
